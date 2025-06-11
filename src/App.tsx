@@ -1,35 +1,83 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Layout from "./components/layout";
+import Home from "./routes/Home";
+import Profile from "./routes/Profile";
+import Login from "./routes/Login";
+import Account from "./components/Account";
+import CreateAccount from "./routes/CreateAccount";
+import { createGlobalStyle } from "styled-components";
+import reset from "styled-reset";
+import { useEffect, useState } from "react";
+import Loading from "./components/Loading";
+import { auth } from "./firebase";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+const router = createBrowserRouter([
+	{
+		path: "/",
+		element: <Layout />,
+		children: [
+			{
+				path: "",
+				element: (
+					<ProtectedRoute>
+						<Home />
+					</ProtectedRoute>
+				),
+			},
+			{
+				path: "profile",
+				element: (
+					<ProtectedRoute>
+						<Profile />
+					</ProtectedRoute>
+				),
+			},
+		],
+	},
+	{
+		path: "/account",
+		element: <Account />,
+		children: [
+			{ path: "login", element: <Login /> },
+			{ path: "create", element: <CreateAccount /> },
+		],
+	},
+	{
+		path: "/loading",
+		element: <Loading />,
+	},
+]);
+
+// 글로벌 스타일 지정
+const GlobalStyle = createGlobalStyle`
+  ${reset};
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    background-color: black;
+    color: white;
+
+  }
+`;
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	const [loading, setLoading] = useState(true);
+	async function init() {
+		// firebase 연결
+		await auth.authStateReady();
+		setLoading(false);
+	}
+	useEffect(() => {
+		init();
+	}, []);
+	return (
+		<>
+			<GlobalStyle />
+			{loading ? <Loading /> : <RouterProvider router={router} />}
+		</>
+	);
 }
 
-export default App
+export default App;
