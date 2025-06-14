@@ -148,7 +148,11 @@ export default function Login() {
 	return (
 		<>
 			<Wrapper>
-				<Form onSubmit={handleSubmit}>
+				<Form
+					style={{
+						width: 600,
+					}}
+					onSubmit={handleSubmit}>
 					<Title>Login</Title>
 					<Input
 						placeholder="이메일"
@@ -174,10 +178,11 @@ export default function Login() {
 					<div
 						style={{
 							display: "flex",
-							gap: 10,
+							gap: 5,
 							marginTop: 8,
 							justifyContent: "center",
 							alignItems: "center",
+							width: 500,
 						}}>
 						<Button
 							type="button"
@@ -185,6 +190,13 @@ export default function Login() {
 								navigate("/account/create");
 							}}>
 							계정 생성하기
+						</Button>
+						<Button
+							type="button"
+							onClick={() => {
+								navigate("/account/findaccount");
+							}}>
+							계정을 잊었어요!
 						</Button>
 						<GithubButton color="white" />
 					</div>

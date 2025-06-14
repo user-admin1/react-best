@@ -44,8 +44,6 @@ const NavLink = styled.div`
 	color: #333;
 	font-weight: 500;
 	transition: color 0.2s ease;
-	text-decoration: none;
-
 	&:hover {
 		color: #007aff;
 	}
@@ -159,11 +157,17 @@ const Content = styled.div`
 export default function Layout() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-	// 현재 유저를 user에 저장(현재 유저가 없다면, null)
-	const user = auth.currentUser;
+	useEffect(() => {
+		// 현재 유저를 user에 저장(현재 유저가 없다면, null)
+		const user = auth.currentUser;
 
-	// 유저가 없다면
-	if (user === null) setIsLoggedIn(false);
+		// 유저가 있다면
+		if (user !== null) {
+			setIsLoggedIn(() => true);
+		} else {
+			setIsLoggedIn(() => false);
+		}
+	});
 
 	return (
 		<Wrapper>
