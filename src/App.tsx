@@ -48,10 +48,11 @@ const router = createBrowserRouter(
 			path: "/loading",
 			element: <Loading />,
 		},
-	],
-	{
-		basename: "/heojawon",
-	}
+	]
+	// {
+	// 	// base url을 지정함
+	// 	basename: "/heojawon",
+	// }
 );
 
 // 글로벌 스타일 지정
