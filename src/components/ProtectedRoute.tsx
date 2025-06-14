@@ -1,7 +1,7 @@
 import type React from "react";
 import { auth } from "../firebase";
 import { Link } from "react-router-dom";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 // React.ReactNode는 React에서 로드 가능한 모든 요소를 말함
 // 이 함수는 유저의 로그인 상태를 확인하고, 보호된 라우트 요소를 렌더링할지 결정함
@@ -30,17 +30,6 @@ export default function ProtectedRoute({
 	console.log(user);
 	return children;
 }
-
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
 
 // const Wrapper = styled.div`
 // 	display: flex;

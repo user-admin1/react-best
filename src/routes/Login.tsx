@@ -1,8 +1,8 @@
 import { signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import React, { useState } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { auth } from "../firebase";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
 import { Wrapper } from "../components/ui/Wrapper";
 import { Form, Input } from "../components/ui/Form";

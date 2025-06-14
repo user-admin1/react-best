@@ -3,7 +3,6 @@ import Layout from "./components/layout";
 import Home from "./routes/Home";
 import Profile from "./routes/Profile";
 import Login from "./routes/Login";
-import Account from "./components/Account";
 import CreateAccount from "./routes/CreateAccount";
 import { createGlobalStyle } from "styled-components";
 import { useEffect, useState } from "react";
@@ -12,43 +11,48 @@ import { auth } from "./firebase";
 import ProtectedRoute from "./components/ProtectedRoute";
 import FindAccount from "./routes/FindAccount";
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+	[
+		{
+			path: "/",
+			element: <Layout />,
+			children: [
+				{
+					path: "",
+					element: (
+						<ProtectedRoute>
+							<Home />
+						</ProtectedRoute>
+					),
+				},
+				{
+					path: "profile",
+					element: (
+						<ProtectedRoute>
+							<Profile />
+						</ProtectedRoute>
+					),
+				},
+			],
+		},
+		{
+			path: "/account",
+			element: <Layout />,
+			children: [
+				{ path: "login", element: <Login /> },
+				{ path: "create", element: <CreateAccount /> },
+				{ path: "findaccount", element: <FindAccount /> },
+			],
+		},
+		{
+			path: "/loading",
+			element: <Loading />,
+		},
+	],
 	{
-		path: "/",
-		element: <Layout />,
-		children: [
-			{
-				path: "",
-				element: (
-					<ProtectedRoute>
-						<Home />
-					</ProtectedRoute>
-				),
-			},
-			{
-				path: "profile",
-				element: (
-					<ProtectedRoute>
-						<Profile />
-					</ProtectedRoute>
-				),
-			},
-		],
-	},
-	{
-		path: "/account",
-		element: <Layout />,
-		children: [
-			{ path: "login", element: <Login /> },
-			{ path: "create", element: <CreateAccount /> },
-			{ path: "findaccount", element: <FindAccount /> },
-		],
-	},
-	{
-		path: "/loading",
-		element: <Loading />,
-	},
-]);
+		basename: "/heojawon",
+	}
+);
 
 // 글로벌 스타일 지정
 const GlobalStyle = createGlobalStyle`

@@ -1,9 +1,7 @@
 import { auth } from "../firebase";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 export default function Home() {
-	const navigate = useNavigate();
-
 	console.log(auth.currentUser);
 
 	return (
