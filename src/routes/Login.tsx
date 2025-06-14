@@ -1,20 +1,16 @@
-import {
-	createUserWithEmailAndPassword,
-	GithubAuthProvider,
-	signInWithPopup,
-	updateProfile,
-} from "firebase/auth";
+import { signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import React, { useState } from "react";
+import styled, { keyframes } from "styled-components";
 import { auth } from "../firebase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
-
 import { Wrapper } from "../components/ui/Wrapper";
+import { Form, Input } from "../components/ui/Form";
+import { Button } from "../components/ui/Button";
 import { Title } from "../components/ui/Title";
 import { Text } from "../components/ui/Text";
-import { Button } from "../components/ui/Button";
-import { Form, Input } from "../components/ui/Form";
-import styled from "styled-components";
+
+import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
 
 const GithubLoginButton = styled.button`
 	background-color: #24292e;
@@ -36,10 +32,10 @@ const Logo = styled.img`
 	margin-right: 8px;
 `;
 
-export default function CreateAccount() {
+export default function Login() {
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
-	const [name, setName] = useState("");
+	const [name, setName] = useState("ioom");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -88,7 +84,7 @@ export default function CreateAccount() {
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
-		if (name === "name") setName(value);
+		if (name === "name") setName("value");
 		else if (name === "email") setEmail(value);
 		else if (name === "password") setPassword(value);
 	};
@@ -97,23 +93,29 @@ export default function CreateAccount() {
 		e.preventDefault();
 		setError("");
 		setIsLoading(true);
+
 		// 현재 요청을 클라이언트에서 검증
 		if (isLoading || name === "" || password === "" || email === "") {
 			console.log(
-				"[Account] 생성 과정에서 문제가 발생하였습니다: 폼이 모두 비어 있습니다."
+				"[Account] 로그인 과정에서 문제가 발생하였습니다: 폼이 모두 비어 있습니다."
 			);
+			setIsLoading(false);
+			setError("모든 필드를 입력해주세요.");
+			// 모든 필드가 비어있다면, 에러 메시지 출력 후 종료
+			// 에러 메시지 출력 후, 로딩 상태를 false로 변경
 			return;
 		}
 		try {
 			// 이메일과 비밀번호를 이용해 계정 생성 요청
 			// 계정이 생성된다면, 바로 계정으로 로그인됨
 
-			// promise를 전달하는 createUserWithEmailAndPassword 전달달
-			const credentials = await createUserWithEmailAndPassword(
+			// promise를 전달하는 signInWithEmailAndPassword 전달
+			const credentials = await signInWithEmailAndPassword(
 				auth,
 				email,
 				password
-			); // state의 email, password 사용
+			);
+			// email과 password가 일치하지 않는다면, catch로 이동
 
 			// 생성된 계정의 credentials 출력
 			console.log(
@@ -132,7 +134,7 @@ export default function CreateAccount() {
 			navigate("/");
 		} catch (error) {
 			console.log(
-				"[Account] 생성 과정에서 문제가 발생하였습니다: 문제가 발생했습니다. \n 자세한 내용은 아래를 확인하세요."
+				"[Account] 로그인 과정에서 문제가 발생하였습니다: 문제가 발생했습니다. \n 자세한 내용은 아래를 확인하세요."
 			);
 			if (error instanceof FirebaseError) {
 				console.log(error.code, error.message);
@@ -147,15 +149,7 @@ export default function CreateAccount() {
 		<>
 			<Wrapper>
 				<Form onSubmit={handleSubmit}>
-					<Title>Account Creation</Title>
-					<Input
-						placeholder="이름"
-						name="name"
-						value={name}
-						onChange={handleChange}
-						required
-						disabled={isLoading}
-					/>
+					<Title>Login</Title>
 					<Input
 						placeholder="이메일"
 						name="email"
@@ -175,12 +169,12 @@ export default function CreateAccount() {
 						disabled={isLoading}
 					/>
 					<Button type="submit" disabled={isLoading}>
-						{isLoading ? "생성 중..." : "계정 생성"}
+						{isLoading ? "로그인 중..." : "로그인"}
 					</Button>
 					<div
 						style={{
 							display: "flex",
-							gap: 25,
+							gap: 10,
 							marginTop: 8,
 							justifyContent: "center",
 							alignItems: "center",
@@ -188,9 +182,9 @@ export default function CreateAccount() {
 						<Button
 							type="button"
 							onClick={() => {
-								navigate("/account/login");
+								navigate("/account/create");
 							}}>
-							로그인하기
+							계정 생성하기
 						</Button>
 						<GithubButton color="white" />
 					</div>

@@ -16,16 +16,14 @@ export default function ProtectedRoute({
 	// 유저가 없다면
 	if (user === null) {
 		return (
-			<Wrapper>
-				<Card>
-					<Icon>⚠️</Icon>
-					<Title>아직 로그인하지 않으셨습니다</Title>
-					<Message>
-						계정이 없으시다면 아래 버튼을 눌러 생성하세요.
-					</Message>
-					<StyledLink to="/account/create">계정 생성하기</StyledLink>
-				</Card>
-			</Wrapper>
+			<Card>
+				<Icon>⚠️</Icon>
+				<Title>아직 로그인하지 않으셨습니다</Title>
+				<Message>
+					계정이 없으시다면 아래 버튼을 눌러 생성하세요.
+				</Message>
+				<StyledLink to="/account/create">계정 생성하기</StyledLink>
+			</Card>
 		);
 	}
 
@@ -44,15 +42,15 @@ const fadeIn = keyframes`
   }
 `;
 
-const Wrapper = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 100vh;
-	background: linear-gradient(to bottom right, #cbd5e1, #a5b4fc);
-	padding: 1rem;
-	animation: ${fadeIn} 0.6s ease forwards;
-`;
+// const Wrapper = styled.div`
+// 	display: flex;
+// 	align-items: center;
+// 	justify-content: center;
+// 	min-height: 100vh;
+// 	background: linear-gradient(to bottom right, #cbd5e1, #a5b4fc);
+// 	padding: 1rem;
+// 	animation: ${fadeIn} 0.6s ease forwards;
+// `;
 
 const Card = styled.div`
 	max-width: 400px;

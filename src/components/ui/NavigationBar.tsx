@@ -1,7 +1,6 @@
-import { Outlet, useNavigate, Link } from "react-router-dom";
-import { styled } from "styled-components";
-import { auth } from "../firebase";
-import { useEffect, useState } from "react";
+import styled from "styled-components";
+import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../../firebase";
 
 const Nav = styled.nav`
 	width: 100%;
@@ -44,7 +43,6 @@ const NavLink = styled.div`
 	color: #333;
 	font-weight: 500;
 	transition: color 0.2s ease;
-	text-decoration: none;
 
 	&:hover {
 		color: #007aff;
@@ -131,46 +129,12 @@ export function NavigationBar({ isLoggedIn }: NavigationBarProps) {
 						</>
 					) : (
 						<>
-							<NavLink as={Link} to="/account/login">
-								로그인
-							</NavLink>
-							<NavLink as={Link} to="/account/create">
-								회원가입
-							</NavLink>
+							<NavLink>로그인</NavLink>
+							<NavLink>회원가입</NavLink>
 						</>
 					)}
 				</NavRight>
 			</NavContent>
 		</Nav>
-	);
-}
-
-const Wrapper = styled.div`
-	min-height: 100vh;
-	padding-top: 60px; // NavigationBar 높이만큼 여백
-`;
-
-const Content = styled.div`
-	max-width: 1200px;
-	margin: 0 auto;
-	padding: 2rem;
-`;
-
-export default function Layout() {
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-	// 현재 유저를 user에 저장(현재 유저가 없다면, null)
-	const user = auth.currentUser;
-
-	// 유저가 없다면
-	if (user === null) setIsLoggedIn(false);
-
-	return (
-		<Wrapper>
-			<NavigationBar isLoggedIn={isLoggedIn} />
-			<Content>
-				<Outlet />
-			</Content>
-		</Wrapper>
 	);
 }

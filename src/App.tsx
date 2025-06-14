@@ -6,11 +6,11 @@ import Login from "./routes/Login";
 import Account from "./components/Account";
 import CreateAccount from "./routes/CreateAccount";
 import { createGlobalStyle } from "styled-components";
-import reset from "styled-reset";
 import { useEffect, useState } from "react";
 import Loading from "./components/Loading";
 import { auth } from "./firebase";
 import ProtectedRoute from "./components/ProtectedRoute";
+import FindAccount from "./routes/FindAccount";
 
 const router = createBrowserRouter([
 	{
@@ -37,10 +37,11 @@ const router = createBrowserRouter([
 	},
 	{
 		path: "/account",
-		element: <Account />,
+		element: <Layout />,
 		children: [
 			{ path: "login", element: <Login /> },
 			{ path: "create", element: <CreateAccount /> },
+			{ path: "findaccount", element: <FindAccount /> },
 		],
 	},
 	{
@@ -51,14 +52,16 @@ const router = createBrowserRouter([
 
 // 글로벌 스타일 지정
 const GlobalStyle = createGlobalStyle`
-  ${reset};
   * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
-  body {
-    background-color: black;
-    color: white;
 
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom right, #cbd5e1, #a5b4fc);
+    color: #111827;
   }
 `;
 
